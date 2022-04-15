@@ -178,7 +178,7 @@ void startLoop() {
   api -> End();
 }
 int main() {
-
+  ShowWindow(GetConsoleWindow(), SW_HIDE);
   std::thread loop_thread( & startLoop);
   HINSTANCE hInstance = GetModuleHandle(nullptr);
   WNDCLASS wc;
