@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.16)
+project(surge)
+set(CMAKE_CXX_STANDARD 17)
+add_executable(surge-tool src/main.cc)
+find_package(Tesseract CONFIG REQUIRED)
+target_link_libraries(surge-tool PRIVATE gdi32 libtesseract)
+file(COPY assets DESTINATION .)
