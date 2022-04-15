@@ -95,9 +95,9 @@ int getValue(Bitmap * bmp, tesseract::TessBaseAPI * api,
       delete[] content;
     }
     delete[] rawData;
-
     return value;
   }
+
   return -1;
 }
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
@@ -157,6 +157,8 @@ void startLoop() {
     auto bm = doScreenshot(hScreenDC);
     auto bx = Bitmap::FromHBITMAP(bm, nullptr);
     int value = getValue(bx, api, & searchEntries);
+    DeleteObject(bm);
+    delete bx;
     if (lastValue > 0 && value > lastValue) {
       std::cout << "Stacks: " << value << "\n";
       switch (value) {
