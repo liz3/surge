@@ -37,9 +37,9 @@ int getStart(Bitmap * bmp,
 }
 int getValue(Bitmap * bmp, tesseract::TessBaseAPI * api,
   const std::vector < Entry > * search) {
-  int xStart = 1250;
+  int xStart = 1100;
   int yStart = 1830;
-  int xEnd = 650;
+  int xEnd = 800;
   int yEnd = 80;
   int offset = 50;
   auto outMap = Bitmap(xEnd, yEnd);
