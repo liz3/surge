@@ -94,7 +94,7 @@ int getValue(Bitmap * bmp, tesseract::TessBaseAPI * api,
             break;
           }
         }
-        if (save)
+        if (save && sub.length())
           value = std::stoi(sub);
       }
       delete[] content;
