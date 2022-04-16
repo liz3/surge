@@ -75,6 +75,11 @@ int getValue(Bitmap * bmp, tesseract::TessBaseAPI * api,
 
     api -> SetImage(rawData, 55, 30, 3, 55 * 3);
     int value = -2;
+    if(!api) {
+     std::cout << "api error\n";
+     delete [] rawData;
+     return -2;
+    }
     const char * content = api -> GetUTF8Text();
     if (content) {
       const std::string str(content);
@@ -148,8 +153,10 @@ void startLoop() {
     createEntry(30, 114, 164)
   };
   tesseract::TessBaseAPI * api = new tesseract::TessBaseAPI();
-  if (api -> Init("assets/eng", "eng"))
+  if (api -> Init("assets/eng", "eng")) {
     std::cerr << "init err\n";
+    return;
+  }
   int lastValue = -1;
   GdiplusStartup( & gdiplusToken, & gdiplusStartupInput, NULL);
   HDC hScreenDC = GetDC(nullptr);
@@ -159,7 +166,8 @@ void startLoop() {
     int value = getValue(bx, api, & searchEntries);
     DeleteObject(bm);
     delete bx;
-    if (lastValue > 0 && value > lastValue) {
+
+    if (lastValue > 0 && value > lastValue && value <= 20) {
       std::cout << "Stacks: " << value << "\n";
       switch (value) {
       case 18:
@@ -173,14 +181,13 @@ void startLoop() {
         break;
       }
     }
-    if (value != -2)
+    if (value != -2 && value <= 20)
       lastValue = value;
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
   }
   api -> End();
 }
 int main() {
-  ShowWindow(GetConsoleWindow(), SW_HIDE);
   std::thread loop_thread( & startLoop);
   HINSTANCE hInstance = GetModuleHandle(nullptr);
   WNDCLASS wc;
